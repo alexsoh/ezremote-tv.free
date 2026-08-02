@@ -16,6 +16,12 @@
 
 ---
 
+## 📚 Detailed Documentation
+
+- 📖 **[Wireless Debugging & ADB Setup Guide (Google TV / Chromecast)](docs/WIRELESS_DEBUGGING_GUIDE.md)**: Full step-by-step guide with terminal commands for unlocking Accessibility Services on Google TV and Chromecast devices via Wireless ADB.
+
+---
+
 ## ✨ Features at a Glance
 
 ### 📱 Zero-Install Mobile Control
@@ -47,12 +53,9 @@ Protects your TV from unauthorized network access. On initial connection, enter 
 - Toggle **EzTVControlService** to **ON** under Accessibility Settings.
 
 > [!WARNING]
-> **Google TV / Android 13+ Notice (Toggle Turns Off Automatically?)**
-> Android 13+ and Google TV OS restrict Accessibility Services for sideloaded APKs by default. If the accessibility toggle automatically flips back OFF when clicked:
-> 1. Go to TV **Settings** -> **Apps** -> **See all apps** -> **EzRemote TV**.
-> 2. Scroll to the bottom (or click top-right 3 dots) and select **"Allow restricted settings"**.
-> 3. Enter your TV PIN/password if prompted.
-> 4. Go back to **Settings** -> **System** -> **Accessibility** -> **EzTVControlService** and toggle it **ON**.
+> **Google TV / Chromecast Notice (Toggle Turns Off Automatically?)**  
+> Google TV and Chromecast block Accessibility Services for sideloaded APKs under "Restricted Settings".  
+> 📘 See the **[Wireless Debugging & ADB Guide](docs/WIRELESS_DEBUGGING_GUIDE.md)** for detailed commands to unlock this restriction via Wireless ADB.
 
 ### Step 3: Scan & Connect
 - Make sure your smartphone or PC is connected to the same Wi-Fi network.
@@ -61,12 +64,23 @@ Protects your TV from unauthorized network access. On initial connection, enter 
 
 ---
 
-## ⚡ Zero-Click ADB Command Bypass (Optional)
+## ⚡ Zero-Click Terminal Commands (Quick Reference)
 
-If you have ADB enabled on your TV or Android TV emulator:
+For complete pairing details, refer to the **[Wireless Debugging Guide](docs/WIRELESS_DEBUGGING_GUIDE.md)**.
+
 ```bash
-adb shell settings put secure enabled_accessibility_services com.ezremote.tv/.service.EzTVControlService
+# 1. Unlock Google TV Restricted Settings
+adb shell appops set com.ezremote.tv ACCESS_RESTRICTED_SETTINGS allow
+
+# 2. Enable Accessibility Service
+adb shell settings put secure enabled_accessibility_services com.ezremote.tv/com.ezremote.tv.service.EzTVControlService
 adb shell settings put secure accessibility_enabled 1
+
+# 3. Verify Service Status
+adb shell settings get secure enabled_accessibility_services
+
+# 4. Launch App
+adb shell am start -n com.ezremote.tv/.TVHomeActivity
 ```
 
 ---
